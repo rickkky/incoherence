@@ -1,6 +1,13 @@
 {
   "name": "incoherence",
   "version": "0.1.0",
+  "description": "Containing debounce and throttle helpers.",
+  "keywords": [
+    "debounce",
+    "throttle",
+    "util",
+    "utility"
+  ],
   "license": "MIT",
   "author": "ricky",
   "main": "dist/index.js",
