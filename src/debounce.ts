@@ -19,7 +19,7 @@ function debounce<A extends [], R>(
   if (options && options !== defaultOptions) {
     if (
       options.maxGap &&
-      Number.isNaN(options.maxGap) &&
+      Number.isFinite(options.maxGap) &&
       options.maxGap >= gap
     ) {
       maxGap = options.maxGap
@@ -103,7 +103,11 @@ function debounce<A extends [], R>(
   }
 
   function debounced(this: any, ...args: A): Promise<R> {
-    return new Promise<R>(handle.bind(this, args)).catch()
+    const promise = new Promise<R>(handle.bind(this, args))
+
+    promise.catch((reason) => reason)
+
+    return promise
   }
 
   return debounced
