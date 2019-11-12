@@ -22,7 +22,7 @@ describe('force execution', () => {
     let callback = sinon.spy()
 
     // set up debounced function with wait of 100
-    let handle = debounce(callback, { gap: 100, immediate: false })
+    let handle = debounce(callback, 100, { immediate: false })
 
     // call debounced function at interval of 50
     setTimeout(handle, 100)
@@ -38,7 +38,8 @@ describe('force execution', () => {
   it('should execute both timeout when immediate is true', () => {
     let callback = sinon.spy()
 
-    let handle = debounce(callback, { gap: 100 })
+    // immediate option defaults to true
+    let handle = debounce(callback, 100)
 
     setTimeout(handle, 100)
     setTimeout(handle, 150)

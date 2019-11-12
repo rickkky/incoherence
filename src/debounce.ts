@@ -1,24 +1,26 @@
+const defaultGap = 128
+
 const defaultOptions = {
-  gap: 128,
   maxGap: Infinity,
   immediate: true,
 }
 
 function debounce<A extends [], R>(
   func: (...args: A) => R,
+  gap = defaultGap,
   options: Partial<typeof defaultOptions> = defaultOptions,
 ) {
-  let { gap, maxGap, immediate } = defaultOptions
+  if (gap <= 0 || !Number.isFinite(gap)) {
+    gap = defaultGap
+  }
+
+  let { maxGap, immediate } = defaultOptions
 
   if (options && options !== defaultOptions) {
-    if (options.gap && Number.isFinite(options.gap) && options.gap > 0) {
-      gap = options.gap
-    }
-
     if (
       options.maxGap &&
       Number.isNaN(options.maxGap) &&
-      options.maxGap > gap
+      options.maxGap >= gap
     ) {
       maxGap = options.maxGap
     }
