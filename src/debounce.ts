@@ -4,10 +4,6 @@ const defaultOptions = {
   immediate: true,
 }
 
-/**
- * @param func
- * @param options
- */
 function debounce<A extends [], R>(
   func: (...args: A) => R,
   options: Partial<typeof defaultOptions> = defaultOptions,
