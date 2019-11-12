@@ -25,9 +25,9 @@ describe('force execution', () => {
 
     setTimeout(handle, 100)
     setTimeout(handle, 150)
-    setTimeout(handle, 210)
+    setTimeout(handle, 205)
 
-    clock.tick(250)
+    clock.tick(210)
 
     expect(callback.callCount).toEqual(2)
   })
