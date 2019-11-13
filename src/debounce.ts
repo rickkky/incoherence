@@ -63,7 +63,8 @@ function debounce<A extends [], R>(
   }
 
   function resetForImmediateExecution() {
-    if (!immediate) {
+    // don't reset gap timer when throttling either
+    if (!immediate || (immediate && maxGap === gap)) {
       return
     }
 
@@ -75,6 +76,7 @@ function debounce<A extends [], R>(
   function resetAfterExecution() {
     gapTimer = undefined
     lastReject = undefined
+    shouldExecute = false
 
     resetMaxGapTimer()
     resetForImmediateExecution()

@@ -78,7 +78,8 @@
     }
 
     function resetForImmediateExecution() {
-      if (!immediate) {
+      // don't reset gap timer when throttling either
+      if (!immediate || (immediate && maxGap === gap)) {
         return
       }
 
@@ -90,6 +91,7 @@
     function resetAfterExecution() {
       gapTimer = undefined
       lastReject = undefined
+      shouldExecute = false
       resetMaxGapTimer()
       resetForImmediateExecution()
     }
