@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Debounce and Throttle</title>
+    <script src="../dist/incoherence.umd.development.js"></script>
+    <style>
+      html,
+      body {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #303030;
+      }
+
+      #move-area {
+        width: 100%;
+        height: 30%;
+        background-color: #383838;
+      }
+
+      #move-area span {
+        display: inline-block;
+        margin: 10px;
+        color: #a0a0a0;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="move-area">
+      <span>Move your mouse here.</span>
+    </section>
+    <canvas id="canvas"></canvas>
+
+    <script>
+      const canvas = document.querySelector('#canvas')
+      const context = canvas.getContext('2d')
+      const moveArea = document.querySelector('#move-area')
+
+      const leftMargin = 200
+      const gap = 100
+
+      let timeScale = 0
+      let startTime = 0
+
+      const lanes = [
+        {
+          text: 'regular',
+          color: '#40e0d0',
+          handler: () => paint(0),
+        },
+        {
+          text: 'debounce',
+          color: '#ff8c00',
+          handler: incoherence.debounce(() => paint(1), gap, {
+            immediate: false,
+          }),
+        },
+        {
+          text: 'immediate debounce',
+          color: '#ff0080',
+          handler: incoherence.debounce(() => paint(2), gap),
+        },
+        {
+          text: 'throttle',
+          color: '#1c92d2',
+          handler: incoherence.throttle(() => paint(3), gap),
+        },
+      ]
+
+      moveArea.addEventListener(
+        'mousemove',
+        () => lanes.forEach((lane) => lane.handler()),
+        false,
+      )
+
+      function flush() {
+        context.fillStyle = '#303030'
+        context.fillRect(0, 0, canvas.width, canvas.height)
+
+        context.fillStyle = '#71046d'
+        context.fillRect(leftMargin - 1, 0, 1, canvas.height)
+
+        context.font = '200 18px Roboto,Helvetica,Arial'
+
+        lanes.forEach((lane, index) => {
+          paintText(index)
+        })
+      }
+
+      function paintText(index) {
+        const lane = lanes[index]
+
+        context.fillStyle = lane.color
+        context.fillText(
+          lane.text,
+          10,
+          (canvas.height / lanes.length) * index + 100,
+        )
+      }
+
+      function getTimeDiff() {
+        let now = Date.now()
+
+        if (!startTime) {
+          startTime = now
+        }
+
+        return now - startTime
+      }
+
+      function paint(index) {
+        let time = getTimeDiff()
+
+        if (time > timeScale) {
+          startTime += time
+          time = 0
+
+          flush()
+        }
+
+        context.fillStyle = lanes[index].color
+
+        let x = ((canvas.width - leftMargin) / timeScale) * time + leftMargin
+        let y = (canvas.height / lanes.length) * index
+        let height = canvas.height / lanes.length
+        let width = 1
+
+        context.fillRect(x, y, width, height)
+      }
+
+      window.onresize = () => {
+        canvas.width = document.body.offsetWidth
+        canvas.height = document.body.offsetHeight * 0.7
+
+        timeScale = (canvas.width - leftMargin) * lanes.length
+        startTime = 0
+
+        flush()
+      }
+      window.onresize()
+    </script>
+  </body>
+</html>
