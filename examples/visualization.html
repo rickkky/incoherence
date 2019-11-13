@@ -59,16 +59,16 @@
           handler: incoherence.throttle(() => paint(1), gap),
         },
         {
-          text: 'debounce',
-          color: '#ff8c00',
-          handler: incoherence.debounce(() => paint(2), gap, {
-            immediate: false,
-          }),
-        },
-        {
           text: 'immediate debounce',
           color: '#ff0080',
-          handler: incoherence.debounce(() => paint(3), gap),
+          handler: incoherence.debounce(() => paint(2), gap),
+        },
+        {
+          text: 'debounce',
+          color: '#ff8c00',
+          handler: incoherence.debounce(() => paint(3), gap, {
+            immediate: false,
+          }),
         },
       ]
 
