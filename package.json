@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --format umd,cjs,esm",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "commit:cz": "git-cz",
