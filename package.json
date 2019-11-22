@@ -10,6 +10,10 @@
   ],
   "license": "MIT",
   "author": "ricky",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rickkky/combine-class-names"
+  },
   "main": "dist/index.js",
   "module": "dist/incoherence.esm.js",
   "typings": "dist/index.d.ts",
