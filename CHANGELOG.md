@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/rickkky/incoherence/compare/v0.1.1...v0.1.2) (2019-11-29)
+
+
+### Bug Fixes
+
+* fix wrong arguments type ([b274ffb](https://github.com/rickkky/incoherence/commit/b274ffb2206722b48e9a8b5f77b45fc5af035232))
+
 ### [0.1.1](https://github.com/rickkky/combine-class-names/compare/v0.1.0...v0.1.1) (2019-11-22)
 
 ## 0.1.0 (2019-11-13)
