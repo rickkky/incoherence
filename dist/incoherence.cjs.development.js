@@ -1,147 +1,139 @@
-'use strict'
+'use strict';
 
-var defaultGap = 128
+var defaultGap = 128;
 var defaultOptions = {
   maxGap: Infinity,
-  immediate: true,
-}
+  immediate: true
+};
 
 function debounce(func, gap, options) {
   if (gap === void 0) {
-    gap = defaultGap
+    gap = defaultGap;
   }
 
   if (options === void 0) {
-    options = defaultOptions
+    options = defaultOptions;
   }
 
   if (gap <= 0 || !Number.isFinite(gap)) {
-    gap = defaultGap
+    gap = defaultGap;
   }
 
   var maxGap = defaultOptions.maxGap,
-    immediate = defaultOptions.immediate
+      immediate = defaultOptions.immediate;
 
   if (options && options !== defaultOptions) {
-    if (
-      options.maxGap &&
-      Number.isFinite(options.maxGap) &&
-      options.maxGap >= gap
-    ) {
-      maxGap = options.maxGap
+    if (options.maxGap && Number.isFinite(options.maxGap) && options.maxGap >= gap) {
+      maxGap = options.maxGap;
     }
 
     if (typeof options.immediate === 'boolean') {
-      immediate = options.immediate
+      immediate = options.immediate;
     }
   }
 
-  var shouldExecute = immediate
-  var gapTimer
-  var maxGapTimer
-  var lastReject
+  var shouldExecute = immediate;
+  var gapTimer;
+  var maxGapTimer;
+  var lastReject;
 
   function skipLastInvoke() {
     if (gapTimer) {
-      clearTimeout(gapTimer)
+      clearTimeout(gapTimer);
     }
 
     if (lastReject) {
       lastReject({
-        message: 'Cancelled by debounce.',
-      })
+        message: 'Cancelled by debounce.'
+      });
     }
 
-    gapTimer = undefined
-    lastReject = undefined
+    gapTimer = undefined;
+    lastReject = undefined;
   }
 
   function resetMaxGapTimer() {
     if (!Number.isFinite(maxGap)) {
-      return
+      return;
     }
 
     if (maxGapTimer) {
-      clearTimeout(maxGapTimer)
+      clearTimeout(maxGapTimer);
     }
 
-    maxGapTimer = setTimeout(function() {
-      shouldExecute = true
-    }, maxGap)
+    maxGapTimer = setTimeout(function () {
+      shouldExecute = true;
+    }, maxGap);
   }
 
   function resetForImmediateExecution() {
     // don't reset gap timer when throttling either
-    if (!immediate || (immediate && maxGap === gap)) {
-      return
+    if (!immediate || immediate && maxGap === gap) {
+      return;
     }
 
-    gapTimer = setTimeout(function() {
-      shouldExecute = true
-    }, gap)
+    gapTimer = setTimeout(function () {
+      shouldExecute = true;
+    }, gap);
   }
 
   function resetAfterExecution() {
-    gapTimer = undefined
-    lastReject = undefined
-    shouldExecute = false
-    resetMaxGapTimer()
-    resetForImmediateExecution()
+    gapTimer = undefined;
+    lastReject = undefined;
+    shouldExecute = false;
+    resetMaxGapTimer();
+    resetForImmediateExecution();
   }
 
   function execute(args, resolve) {
-    resolve(func.apply(this, args))
-    resetAfterExecution()
+    resolve(func.apply(this, args));
+    resetAfterExecution();
   }
 
   function handle(args, resolve, reject) {
-    skipLastInvoke()
+    skipLastInvoke();
 
     if (shouldExecute) {
-      setTimeout(execute.bind(this, args, resolve), 0)
-      shouldExecute = false
+      setTimeout(execute.bind(this, args, resolve), 0);
+      shouldExecute = false;
     } else {
-      gapTimer = setTimeout(execute.bind(this, args, resolve), gap)
-      lastReject = reject
+      gapTimer = setTimeout(execute.bind(this, args, resolve), gap);
+      lastReject = reject;
     }
   }
 
   function debounced() {
-    for (
-      var _len = arguments.length, args = new Array(_len), _key = 0;
-      _key < _len;
-      _key++
-    ) {
-      args[_key] = arguments[_key]
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    var promise = new Promise(handle.bind(this, args))
-    promise['catch'](function(reason) {
-      return reason
-    })
-    return promise
+    var promise = new Promise(handle.bind(this, args));
+    promise["catch"](function (reason) {
+      return reason;
+    });
+    return promise;
   }
 
-  return debounced
+  return debounced;
 }
 
-var defaultGap$1 = 128
+var defaultGap$1 = 128;
 
 function throttle(func, gap) {
   if (gap === void 0) {
-    gap = defaultGap$1
+    gap = defaultGap$1;
   }
 
   if (gap <= 0 || !Number.isFinite(gap)) {
-    gap = defaultGap$1
+    gap = defaultGap$1;
   }
 
   return debounce(func, gap, {
     maxGap: gap,
-    immediate: true,
-  })
+    immediate: true
+  });
 }
 
-exports.debounce = debounce
-exports.throttle = throttle
+exports.debounce = debounce;
+exports.throttle = throttle;
 //# sourceMappingURL=incoherence.cjs.development.js.map
