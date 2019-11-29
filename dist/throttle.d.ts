@@ -1,4 +1,4 @@
-declare function throttle<A extends [], R>(
+declare function throttle<A extends any[], R = void>(
   func: (...args: A) => R,
   gap?: number,
 ): (this: any, ...args: A) => Promise<R>
