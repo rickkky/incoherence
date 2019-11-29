@@ -5,7 +5,7 @@ const defaultOptions = {
   immediate: true,
 }
 
-function debounce<A extends [], R>(
+function debounce<A extends any[], R = void>(
   func: (...args: A) => R,
   gap = defaultGap,
   options: Partial<typeof defaultOptions> = defaultOptions,
