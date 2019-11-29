@@ -12,7 +12,7 @@
   "author": "ricky",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rickkky/combine-class-names"
+    "url": "https://github.com/rickkky/incoherence"
   },
   "main": "dist/index.js",
   "module": "dist/incoherence.esm.js",
